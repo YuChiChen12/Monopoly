@@ -1,7 +1,7 @@
 import argparse
 from typing import Optional
 
-from flask import Flask, jsonify, request, render_template, send_file
+from flask import Flask, jsonify, request
 from game import Game
 
 #

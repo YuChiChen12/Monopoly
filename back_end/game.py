@@ -47,6 +47,10 @@ class Game():
             self.cash_per_squad[data['squad_num']] = 5000
             self.bankrupt_time_per_squad[['squad_num']] += 1
             return self.get_state(bankrupt=1)
+        # 把過路費分給各小隊
+        for i in range(8):
+            if i != data['squad_num']:
+                self.cash_per_squad[i] += 1000 * self.asset_per_stop[data['stop_num']][i]
         return self.get_state()
 
     # 置產
@@ -87,3 +91,8 @@ class Game():
             "asset_per_stop" : self.asset_per_stop,
             "toll_per_stop" : self.toll_per_stop
         })
+    
+
+if __name__ == "__main__":
+    x = Game()
+    print(x.get_state())
