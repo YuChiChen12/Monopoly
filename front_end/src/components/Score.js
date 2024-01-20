@@ -36,27 +36,25 @@ function Score() {
   return (
     <>
       <form>
-      <label>第幾小隊：</label>
-
-      <select name="age" value={form.squad} onChange={changeSquad}>
-        {squad.map((item) => (
-          <option key={item.value} value={item}>{item}</option>
-        ))}
-      </select>
-
-	  <h1>您選擇了: {form.squad}</h1>
-    <label htmlFor="name">增加金額：</label>
-      <input
-        id="cash_add"
-        type="text"
-		cash_add="cash_add"
-        value={form.name}
-        onChange={changeCash_add}
-      />
-    </form>
-    <button type="button" onClick={handleButtonClick}>
-      Click me
-    </button>
+        <label>第幾小隊：</label>
+        <select name="age" value={form.squad} onChange={changeSquad}>
+          {squad.map((item) => (
+            <option key={item.value} value={item}>{item}</option>
+          ))}
+        </select>
+        <h1>您選擇了: {form.squad}</h1>
+        <label htmlFor="name">增加金額：</label>
+        <input
+          id="cash_add"
+          type="text"
+          cash_add="cash_add"
+          value={form.name}
+          onChange={changeCash_add}
+        />
+      </form>
+      <button type="button" onClick={handleButtonClick}>
+        Click me
+      </button>
     </>
   );
 }
