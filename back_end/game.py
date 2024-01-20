@@ -41,13 +41,13 @@ class Game():
 
     # 遊戲獎金 & 機會/命運 & 過路費
     def gain_and_toll(self, data):
-        # 破產(過路費>手上現金)
-        if self.toll_per_stop[data['stop_num']][data['squad_num']] > self.cash_per_squad[data['squad_num']]:
+        self.cash_per_squad[data['squad_num']] += data['game_gain'] + data['extra_gain'] + data['chance'] - self.toll_per_stop[data['stop_num']][data['squad_num']]
+        # 破產(收過路費後手上現金沒了)
+        if self.cash_per_squad[data['squad_num']] < 0:
             self.cash_per_squad[data['squad_num']] = 5000
             self.bankrupt_time_per_squad[['squad_num']] += 1
-        # 置產前剩餘金額(收過路費後未破產)
-        else:
-            self.cash_per_squad[data['squad_num']] += data['game_gain'] + data['extra_gain'] + data['chance'] - self.toll_per_stop[data['stop_num']][data['squad_num']]
+            return self.get_state(bankrupt=1)
+        return self.get_state()
 
     # 置產
     def real_estate(self, data):
@@ -69,19 +69,21 @@ class Game():
         for key, value in data.items():
             data[key] = int(value)
         if data['id'] == 1:
-            self.gain_and_toll(data)
+            return self.gain_and_toll(data)
         elif data['id'] == 2:
             self.real_estate(data)
+            return self.get_state()
 
 
 
 
 
     # def get_state(self): // client output
-    def get_state(self):
+    def get_state(self, bankrupt = 0):
         return jsonify({
             "cash_per_squad" : self.cash_per_squad,
             "bankrupt_time_per_squad" : self.bankrupt_time_per_squad,
+            "bankrupt" : bankrupt,
             "asset_per_stop" : self.asset_per_stop,
             "toll_per_stop" : self.toll_per_stop
         })
