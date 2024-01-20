@@ -1,0 +1,10 @@
+# get from github
+git pull
+
+
+# send to github
+git add .
+git commit -m "name"
+git push
+
+# PULL BEFORE PUSH
