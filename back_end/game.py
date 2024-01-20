@@ -1,5 +1,5 @@
 from flask import jsonify
-
+import json
 # Input json：
     # "squad_num"
     # "stop_num"
@@ -16,18 +16,25 @@ from flask import jsonify
 
 class Game():
     # 初始值
-    def __init__(self, player1, player2):
-        self.cash_per_squad = []   # cash_per_squad：每隊現金 (1D array)
+    def __init__(self):
+        # cash_per_squad：每隊現金 (1D array)
+        self.cash_per_squad = []
         for _ in range(8):
             self.cash_per_squad.append(5000)
-        self.bankrupt_time_per_squad = []   # bankrupt_time_per_squad：每隊破產次數 (1D array)
+
+        # bankrupt_time_per_squad：每隊破產次數 (1D array)
+        self.bankrupt_time_per_squad = []
         for _ in range(8):
             self.bankrupt_time_per_squad.append(0)
-        self.asset_per_stop = []   # asset_per_stop：每隊在各關的房地產數量 (2D array)
+
+        # asset_per_stop：每隊在各關的房地產數量 (2D array)
+        self.asset_per_stop = []   
         for _ in range(15):
             for i in range(8):
                 self.asset_per_stop.append(0)
-        self.toll_per_stop = []   # toll_per_stop：每隊經過各關的過路費 (2D array)
+        
+        # toll_per_stop：每隊經過各關的過路費 (2D array)
+        self.toll_per_stop = []
         for _ in range(15):
             for i in range(8):
                 self.toll_per_stop.append(0)
