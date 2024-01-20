@@ -1,0 +1,10 @@
+.rule {
+    padding: 1rem;
+    text-align: center;
+}
+
+.rule a {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: red;
+}
