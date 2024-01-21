@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../App.css';
-import LatestNews from '../LatestNews';
+import RealEstate from '../RealEstate';
 import Score from '../Score';
 
 function Home() {
@@ -8,7 +8,6 @@ function Home() {
 
   return (
     <>
-      <LatestNews />
       <Score />
     </>
   );

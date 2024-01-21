@@ -4,19 +4,26 @@ import json
     # "squad_num"
     # "stop_num"
     # "game_gain"
-    # "extra_gain"
     # "chance"
     # "add_asset"
+    # "id"  判斷置產前行動or置產
+
 
 # Output json：
+    # "squad_num"
+    # "stop_num"
     # "cash_per_squad"
     # "bankrupt_time_per_squad"
     # "asset_per_stop"
     # "toll_per_stop"
-
+    
 class Game():
     # 初始值
     def __init__(self):
+
+        self.squad_num = 1
+        self.stop_num = 1
+
         # cash_per_squad：每隊現金 (1D array)
         self.cash_per_squad = []
         for _ in range(8):
@@ -41,7 +48,11 @@ class Game():
 
     # 遊戲獎金 & 機會/命運 & 過路費
     def gain_and_toll(self, data):
-        self.cash_per_squad[data['squad_num']] += data['game_gain'] + data['extra_gain'] + data['chance'] - self.toll_per_stop[data['stop_num']][data['squad_num']]
+
+        self.squad_num = data['squad_num']
+        self.stop_num = data['stop_num']
+
+        self.cash_per_squad[data['squad_num']] += data['game_gain'] + data['chance'] - self.toll_per_stop[data['stop_num']][data['squad_num']]
         # 破產(收過路費後手上現金沒了)
         if self.cash_per_squad[data['squad_num']] < 0:
             self.cash_per_squad[data['squad_num']] = 5000
@@ -85,11 +96,13 @@ class Game():
     # def get_state(self): // client output
     def get_state(self, bankrupt = 0):
         return jsonify({
+            "squad_num" : self.squad_num,
+            "stop_num" : self.stop_num,
             "cash_per_squad" : self.cash_per_squad,
             "bankrupt_time_per_squad" : self.bankrupt_time_per_squad,
             "bankrupt" : bankrupt,
             "asset_per_stop" : self.asset_per_stop,
-            "toll_per_stop" : self.toll_per_stop
+            "toll_per_stop" : self.toll_per_stop,
         })
     
 

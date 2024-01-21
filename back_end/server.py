@@ -1,8 +1,8 @@
 import argparse
 from typing import Optional
-
 from flask import Flask, jsonify, request
 from game import Game
+from flask_cors import CORS  # 引入 CORS
 
 #
 SERVER_RAISE_EXCEPTION = True
@@ -17,7 +17,7 @@ game = None
 #
 app = Flask(__name__)
 
-
+CORS(app)
 
 
 @app.route('/', methods=['GET'])
