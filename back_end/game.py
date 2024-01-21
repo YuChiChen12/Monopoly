@@ -56,7 +56,7 @@ class Game():
         # 破產(收過路費後手上現金沒了)
         if self.cash_per_squad[data['squad_num']] < 0:
             self.cash_per_squad[data['squad_num']] = 5000
-            self.bankrupt_time_per_squad[['squad_num']] += 1
+            self.bankrupt_time_per_squad[data['squad_num']] += 1  # Fixed typo here
             return self.get_state(bankrupt=1)
         # 把過路費分給各小隊
         for i in range(8):
@@ -79,8 +79,7 @@ class Game():
     
     # def process(str ...)  // client input
     def data_processing(self, json_string):
-        data = json.parse(json_string)
-
+        data = json.loads(json_string)
         for key, value in data.items():
             data[key] = int(value)
         if data['id'] == 1:
@@ -94,15 +93,15 @@ class Game():
 
 
     # def get_state(self): // client output
-    def get_state(self, bankrupt = 0):
-        return jsonify({
-            "squad_num" : self.squad_num,
-            "stop_num" : self.stop_num,
-            "cash_per_squad" : self.cash_per_squad,
-            "bankrupt_time_per_squad" : self.bankrupt_time_per_squad,
-            "bankrupt" : bankrupt,
-            "asset_per_stop" : self.asset_per_stop,
-            "toll_per_stop" : self.toll_per_stop,
+    def get_state(self, bankrupt=0):
+        return json.dumps({
+            "squad_num": self.squad_num,
+            "stop_num": self.stop_num,
+            "cash_per_squad": self.cash_per_squad,
+            "bankrupt_time_per_squad": self.bankrupt_time_per_squad,
+            "bankrupt": bankrupt,
+            "asset_per_stop": self.asset_per_stop,
+            "toll_per_stop": self.toll_per_stop,
         })
     
 

@@ -15,37 +15,36 @@ function Score() {
     chance: ""
   });
 
-  const changeSquad = (e) => {
+  const changeValue = (e) => {
+    const name = e.target.name;
+  
     setForm((state) => ({
       ...state,
-      squad: e.target.value
-    }));
-  };
-
-  const changeStop = (e) => {
-    setForm((state) => ({
-      ...state,
-      stop: e.target.value
-    }));
-  };
-
-  const changeCash_add = (e) => {
-    setForm((state) => ({
-      ...state,
-      cash_add: e.target.value
-    }));
-  };
-
-  const changeChance = (e) => {
-    setForm((state) => ({
-      ...state,
-      chance: e.target.value
+      [name]: e.target.value
     }));
   };
 
 
   const handleButtonClick = () => {
-
+    const formDataJson = JSON.stringify(form);
+    console.log('123：', {formDataJson})
+    fetch('http://140.113.122.176:5000', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: formDataJson,
+    })
+      .then(response => response.json())  // 解析响应为 JSON
+      .then((data) => {
+        console.log(data);
+        setDataJson(data); // 更新这个文件中的变量
+        
+      })
+      .catch((error) => {
+        console.error(`Error in handleButtonClick: ${error}`);
+      });
+      
     
     // Get()
     //   .then((data) => {
@@ -61,7 +60,7 @@ function Score() {
     <>
       <form>
         <label>第幾小隊：</label>
-        <select name="squad" value={form.squad} onChange={changeSquad}>
+        <select name="squad" value={form.squad} onChange={changeValue}>
           {squad.map((item) => (
             <option key={item} value={item}>
               {item}
@@ -71,7 +70,7 @@ function Score() {
         <h1>你是{form.squad}小</h1>
 
         <label>第幾關：</label>
-        <select name="stop" value={form.stop} onChange={changeStop}>
+        <select name="stop" value={form.stop} onChange={changeValue}>
           {stop.map((item) => (
             <option key={item} value={item}>
               {item}
@@ -80,24 +79,24 @@ function Score() {
         </select>
         <h1>這是第{form.stop}關</h1>
 
-        <label htmlFor="name">地產擴張獎勵金：</label>
+        <label htmlFor="cash_add">地產擴張獎勵金：</label>
         <input
           id="cash_add"
           type="text"
-          cash_add="cash_add"
+          name="cash_add"
           value={form.cash_add}
-          onChange={changeCash_add}
+          onChange={changeValue}
         />
 
         <br/>
 
-        <label htmlFor="name">機會/命運：</label>
+        <label htmlFor="chance">機會/命運：</label>
         <input
           id="chance"
           type="text"
-          chance="chance"
+          name="chance"
           value={form.chance}
-          onChange={changeChance}
+          onChange={changeValue}
         />
 
       </form>
