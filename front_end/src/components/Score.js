@@ -35,16 +35,7 @@ function Score() {
     ...prevForm,
     add_asset: 0,
     id: 1
-  }))};
-
-  const assetButtonClick = () => {
-  setForm((prevForm) => ({
-    ...prevForm,
-    game_gain: 0,
-    chance: 0,
-    id: 2
-  }))};
-
+  }))
   const formDataJson = JSON.stringify(form);
   Post(formDataJson)
     .then((data) => {
@@ -58,6 +49,27 @@ function Score() {
     .catch((error) => {
       console.error(`Error in ButtonClick: ${error}`);
     });
+  };
+
+  const assetButtonClick = () => {
+  setForm((prevForm) => ({
+    ...prevForm,
+    game_gain: 0,
+    chance: 0,
+    id: 2
+  }))
+  const formDataJson = JSON.stringify(form);
+  Post(formDataJson)
+    .then((data) => {
+      console.log('Get data after Post：', data);
+      setDataJson(data);
+    })
+    .catch((error) => {
+      console.error(`Error in ButtonClick: ${error}`);
+    });
+  };
+
+
     
     // Get()
     //   .then((data) => {
@@ -68,8 +80,6 @@ function Score() {
     //     console.error(`Error in ButtonClick: ${error}`);
     //   });
 
-
-  // 破產通知
 
   return (
     <>

@@ -31,18 +31,10 @@ class Game():
         self.bankrupt_time_per_squad = []
         for _ in range(8):
             self.bankrupt_time_per_squad.append(0)
-        # 存成2D array
-        temp = []
-        for i in range(8):
-            temp.append(0)
         # asset_per_stop：每隊在各關的房地產數量 (2D array)
-        self.asset_per_stop = []   
-        for _ in range(15):
-            self.asset_per_stop.append(temp)
+        self.asset_per_stop = [[0 for _ in range(8)] for _ in range(15)]
         # toll_per_stop：每隊經過各關的過路費 (2D array)
-        self.toll_per_stop = []
-        for _ in range(15):
-            self.toll_per_stop.append(temp)
+        self.toll_per_stop = [[0 for _ in range(8)] for _ in range(15)]
 
 
     # 遊戲獎金 & 機會/命運 & 過路費
@@ -53,7 +45,7 @@ class Game():
         # 破產(收過路費後手上現金沒了)
         if self.cash_per_squad[data['squad_num']-1] < 0:
             self.cash_per_squad[data['squad_num']-1] = 5000
-            self.bankrupt_time_per_squad[data['squad_num']-1] += 1  # Fixed typo here
+            self.bankrupt_time_per_squad[data['squad_num']-1] += 1
             return self.get_state(bankrupt=1)
         # 把過路費分給各小隊
         for i in range(8):
@@ -64,9 +56,13 @@ class Game():
     # 置產
     def real_estate(self, data):
         self.asset_per_stop[data['stop_num']-1][data['squad_num']-1] += data['add_asset']
+        print('asset_per_stop before：', self.asset_per_stop)
+        print('toll_per_stop before：', self.toll_per_stop)
         for i in range(8):
             if i != (data['squad_num']-1):
                 self.toll_per_stop[data['stop_num']-1][i] += 1000 * data['add_asset']
+        print('asset_per_stop after：', self.asset_per_stop)
+        print('toll_per_stop after：', self.toll_per_stop)
         if data['add_asset'] == 1:
             self.cash_per_squad[data['squad_num']-1] -= 500
         elif data['add_asset'] == 2:
@@ -77,6 +73,7 @@ class Game():
     
     # def process(str ...)  // client input
     def data_processing(self, data):
+        data = json.loads(data)
         for key, value in data.items():
             data[key] = int(value)
         if data['id'] == 1:
@@ -91,7 +88,7 @@ class Game():
     # def get_state(self): // client output
     def get_state(self, bankrupt=0):
         # Debug：
-        # print(json.dumps({
+        # print('after：', json.dumps({
         #     "squad_num": self.squad_num,
         #     "stop_num": self.stop_num,
         #     "cash_per_squad": self.cash_per_squad,
