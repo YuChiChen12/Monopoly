@@ -56,13 +56,9 @@ class Game():
     # 置產
     def real_estate(self, data):
         self.asset_per_stop[data['stop_num']-1][data['squad_num']-1] += data['add_asset']
-        print('asset_per_stop before：', self.asset_per_stop)
-        print('toll_per_stop before：', self.toll_per_stop)
         for i in range(8):
             if i != (data['squad_num']-1):
                 self.toll_per_stop[data['stop_num']-1][i] += 1000 * data['add_asset']
-        print('asset_per_stop after：', self.asset_per_stop)
-        print('toll_per_stop after：', self.toll_per_stop)
         if data['add_asset'] == 1:
             self.cash_per_squad[data['squad_num']-1] -= 500
         elif data['add_asset'] == 2:
