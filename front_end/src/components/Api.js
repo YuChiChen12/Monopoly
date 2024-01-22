@@ -1,4 +1,4 @@
-function Get() {
+export default function Get() {
     return fetch("http://140.113.122.176:5000")
       .then((response) => response.json())
       .catch((error) => {
@@ -7,7 +7,6 @@ function Get() {
     });
 }
 
-export default Get;
 
 export function Post(formDataJson) {
     console.log('Post data：', {formDataJson})
