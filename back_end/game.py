@@ -47,34 +47,32 @@ class Game():
 
     # 遊戲獎金 & 機會/命運 & 過路費
     def gain_and_toll(self, data):
-
         self.squad_num = data['squad_num']
         self.stop_num = data['stop_num']
-
-        self.cash_per_squad[data['squad_num']] += data['game_gain'] + data['chance'] - self.toll_per_stop[data['stop_num']][data['squad_num']]
+        self.cash_per_squad[data['squad_num']-1] += data['game_gain'] + data['chance'] - self.toll_per_stop[data['stop_num']-1][data['squad_num']-1]
         # 破產(收過路費後手上現金沒了)
-        if self.cash_per_squad[data['squad_num']] < 0:
-            self.cash_per_squad[data['squad_num']] = 5000
-            self.bankrupt_time_per_squad[data['squad_num']] += 1  # Fixed typo here
+        if self.cash_per_squad[data['squad_num']-1] < 0:
+            self.cash_per_squad[data['squad_num']-1] = 5000
+            self.bankrupt_time_per_squad[data['squad_num']-1] += 1  # Fixed typo here
             return self.get_state(bankrupt=1)
         # 把過路費分給各小隊
         for i in range(8):
-            if i != data['squad_num']:
-                self.cash_per_squad[i] += 1000 * self.asset_per_stop[data['stop_num']][i]
+            if i != (data['squad_num']-1):
+                self.cash_per_squad[i] += 1000 * self.asset_per_stop[data['stop_num']-1][i]
         return self.get_state()
 
     # 置產
     def real_estate(self, data):
-        self.asset_per_stop[data['stop_num']][data['squad_num']] += data['add_asset']
+        self.asset_per_stop[data['stop_num']-1][data['squad_num']-1] += data['add_asset']
         for i in range(8):
-            if (i+1) != data['squad_num']:
-                self.toll_per_stop[data['stop_num']][i+1] += 1000 * data['add_asset']
+            if i != (data['squad_num']-1):
+                self.toll_per_stop[data['stop_num']-1][i] += 1000 * data['add_asset']
         if data['add_asset'] == 1:
-            self.cash_per_squad[data['squad_num']] -= 500
+            self.cash_per_squad[data['squad_num']-1] -= 500
         elif data['add_asset'] == 2:
-            self.cash_per_squad[data['squad_num']] -= 1300
+            self.cash_per_squad[data['squad_num']-1] -= 1300
         elif data['add_asset'] == 3:
-            self.cash_per_squad[data['squad_num']] -= 2500
+            self.cash_per_squad[data['squad_num']-1] -= 2500
         return self.get_state()
     
     # def process(str ...)  // client input
@@ -92,14 +90,16 @@ class Game():
 
     # def get_state(self): // client output
     def get_state(self, bankrupt=0):
-        print('This is output：', json.dumps({
-            "squad_num": self.squad_num,
-            "stop_num": self.stop_num,
-            "cash_per_squad": self.cash_per_squad,
-            "bankrupt_time_per_squad": self.bankrupt_time_per_squad,
-            "bankrupt": bankrupt,
-            "asset_per_stop": self.asset_per_stop,
-            "toll_per_stop": self.toll_per_stop}))
+        # Debug：
+        # print(json.dumps({
+        #     "squad_num": self.squad_num,
+        #     "stop_num": self.stop_num,
+        #     "cash_per_squad": self.cash_per_squad,
+        #     "bankrupt_time_per_squad": self.bankrupt_time_per_squad,
+        #     "bankrupt": bankrupt,
+        #     "asset_per_stop": self.asset_per_stop,
+        #     "toll_per_stop": self.toll_per_stop
+        # }))
         return json.dumps({
             "squad_num": self.squad_num,
             "stop_num": self.stop_num,

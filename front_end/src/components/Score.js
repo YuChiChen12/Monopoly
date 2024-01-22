@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import {Get, Post} from './Connect.js';
+import {Get, Post} from './Connect.js';
 import RealEstate from './RealEstate';
 
 function Score() {
@@ -34,25 +34,15 @@ function Score() {
     id: 1
   }));
 
-    const formDataJson = JSON.stringify(form);
-    console.log('傳到後端的JSON：', {formDataJson})
-    fetch('http://140.113.122.176:5000', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: formDataJson,
+  const formDataJson = JSON.stringify(form);
+  Post(formDataJson)
+    .then((data) => {
+      console.log('Get data after Post：', data);
+      setDataJson(data);
     })
-      .then(response => response.json())
-      .then((data) => {
-        console.log('這是data：', data);
-        setDataJson(data); // 更新这个文件中的变量
-        
-      })
-      .catch((error) => {
-        console.error(`Error in handleButtonClick: ${error}`);
-      });
-      
+    .catch((error) => {
+      console.error(`Error in handleButtonClick: ${error}`);
+    });
     
     // Get()
     //   .then((data) => {
