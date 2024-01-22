@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Get, Post} from './Connect.js';
+// import {Get, Post} from './Connect.js';
 import RealEstate from './RealEstate';
 
 function Score() {
@@ -9,10 +9,12 @@ function Score() {
   const [dataJson, setDataJson] = useState();
 
   const [form, setForm] = useState({
-    squad: squad[0],
-    stop: stop[0],
-    cash_add: "",
-    chance: ""
+    squad_num: squad[0],
+    stop_num: stop[0],
+    game_gain: 0,
+    chance: 0,
+    add_asset: 0,
+    id: 1
   });
 
   const changeValue = (e) => {
@@ -26,8 +28,14 @@ function Score() {
 
 
   const handleButtonClick = () => {
+    // Update form.id to 1
+  setForm((prevForm) => ({
+    ...prevForm,
+    id: 1
+  }));
+
     const formDataJson = JSON.stringify(form);
-    console.log('123：', {formDataJson})
+    console.log('傳到後端的JSON：', {formDataJson})
     fetch('http://140.113.122.176:5000', {
       method: 'POST',
       headers: {
@@ -35,9 +43,9 @@ function Score() {
       },
       body: formDataJson,
     })
-      .then(response => response.json())  // 解析响应为 JSON
+      .then(response => response.json())
       .then((data) => {
-        console.log(data);
+        console.log('這是data：', data);
         setDataJson(data); // 更新这个文件中的变量
         
       })
@@ -60,31 +68,31 @@ function Score() {
     <>
       <form>
         <label>第幾小隊：</label>
-        <select name="squad" value={form.squad} onChange={changeValue}>
+        <select name="squad_num" value={form.squad_num} onChange={changeValue}>
           {squad.map((item) => (
             <option key={item} value={item}>
               {item}
             </option>
           ))}
         </select>
-        <h1>你是{form.squad}小</h1>
+        <h1>你是{form.squad_num}小</h1>
 
         <label>第幾關：</label>
-        <select name="stop" value={form.stop} onChange={changeValue}>
+        <select name="stop_num" value={form.stop_num} onChange={changeValue}>
           {stop.map((item) => (
             <option key={item} value={item}>
               {item}
             </option>
           ))}
         </select>
-        <h1>這是第{form.stop}關</h1>
+        <h1>這是第{form.stop_num}關</h1>
 
-        <label htmlFor="cash_add">地產擴張獎勵金：</label>
+        <label htmlFor="game_gain">地產擴張獎勵金：</label>
         <input
-          id="cash_add"
+          id="game_gain"
           type="text"
-          name="cash_add"
-          value={form.cash_add}
+          name="game_gain"
+          value={form.game_gain}
           onChange={changeValue}
         />
 

@@ -20,31 +20,30 @@ import json
 class Game():
     # 初始值
     def __init__(self):
-
-        self.squad_num = 1
-        self.stop_num = 1
-
+        # 幾小 哪一關
+        self.squad_num = 0
+        self.stop_num = 0
         # cash_per_squad：每隊現金 (1D array)
         self.cash_per_squad = []
         for _ in range(8):
             self.cash_per_squad.append(5000)
-
         # bankrupt_time_per_squad：每隊破產次數 (1D array)
         self.bankrupt_time_per_squad = []
         for _ in range(8):
             self.bankrupt_time_per_squad.append(0)
-
+        # 存成2D array
+        temp = []
+        for i in range(8):
+            temp.append(0)
         # asset_per_stop：每隊在各關的房地產數量 (2D array)
         self.asset_per_stop = []   
         for _ in range(15):
-            for i in range(8):
-                self.asset_per_stop.append(0)
-        
+            self.asset_per_stop.append(temp)
         # toll_per_stop：每隊經過各關的過路費 (2D array)
         self.toll_per_stop = []
         for _ in range(15):
-            for i in range(8):
-                self.toll_per_stop.append(0)
+            self.toll_per_stop.append(temp)
+
 
     # 遊戲獎金 & 機會/命運 & 過路費
     def gain_and_toll(self, data):
@@ -76,17 +75,16 @@ class Game():
             self.cash_per_squad[data['squad_num']] -= 1300
         elif data['add_asset'] == 3:
             self.cash_per_squad[data['squad_num']] -= 2500
+        return self.get_state()
     
     # def process(str ...)  // client input
-    def data_processing(self, json_string):
-        data = json.loads(json_string)
+    def data_processing(self, data):
         for key, value in data.items():
             data[key] = int(value)
         if data['id'] == 1:
             return self.gain_and_toll(data)
         elif data['id'] == 2:
-            self.real_estate(data)
-            return self.get_state()
+            return self.real_estate(data)
 
 
 
@@ -94,6 +92,14 @@ class Game():
 
     # def get_state(self): // client output
     def get_state(self, bankrupt=0):
+        print('This is output：', json.dumps({
+            "squad_num": self.squad_num,
+            "stop_num": self.stop_num,
+            "cash_per_squad": self.cash_per_squad,
+            "bankrupt_time_per_squad": self.bankrupt_time_per_squad,
+            "bankrupt": bankrupt,
+            "asset_per_stop": self.asset_per_stop,
+            "toll_per_stop": self.toll_per_stop}))
         return json.dumps({
             "squad_num": self.squad_num,
             "stop_num": self.stop_num,
@@ -101,7 +107,7 @@ class Game():
             "bankrupt_time_per_squad": self.bankrupt_time_per_squad,
             "bankrupt": bankrupt,
             "asset_per_stop": self.asset_per_stop,
-            "toll_per_stop": self.toll_per_stop,
+            "toll_per_stop": self.toll_per_stop
         })
     
 
