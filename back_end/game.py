@@ -16,6 +16,7 @@ import json
     # "bankrupt_time_per_squad"
     # "asset_per_stop"
     # "toll_per_stop"
+    # "total_value"
     
 class Game():
     # 初始值
@@ -37,6 +38,10 @@ class Game():
         self.asset_per_stop = [[0 for _ in range(8)] for _ in range(15)]
         # toll_per_stop：每隊經過各關的過路費 (2D array)
         self.toll_per_stop = [[0 for _ in range(8)] for _ in range(15)]
+        # total_value：各小隊的 (1D array)
+        self.total_value = []
+        for _ in range(8):
+            self.total_value.append(0)
 
 
     # 遊戲獎金 & 機會/命運 & 過路費
@@ -68,6 +73,31 @@ class Game():
                     self.cash_per_squad[data['squad_num']-1] -= 1300
                 elif data['add_asset'] == 3:
                     self.cash_per_squad[data['squad_num']-1] -= 2500
+            # 算每小總資產
+            for i in range(8):
+                self.total_value[i] = 0
+                for j in range(15):
+                    if i==1 | i==2:
+                        if j==3 | j==9 | j==14:
+                            self.total_value[i] += self.asset_per_stop[j][i]*2000
+                        else:
+                            self.total_value[i] += self.asset_per_stop[j][i]*1500
+                    elif i==3 | i==4:
+                        if j==2 | j==8 | j==13:
+                            self.total_value[i] += self.asset_per_stop[j][i]*2000
+                        else:
+                            self.total_value[i] += self.asset_per_stop[j][i]*1500
+                    elif i==5 | i==6:
+                        if j==1 | j==6 | j==12:
+                            self.total_value[i] += self.asset_per_stop[j][i]*2000
+                        else:
+                            self.total_value[i] += self.asset_per_stop[j][i]*1500
+                    else:
+                        if j==0 | j==5 | j==11:
+                            self.total_value[i] += self.asset_per_stop[j][i]*2000
+                        else:
+                            self.total_value[i] += self.asset_per_stop[j][i]*1500
+                self.total_value[i] += self.cash_per_squad[i]
             return self.get_state()
     
     def data_processing(self, data):
@@ -99,7 +129,8 @@ class Game():
             "bankrupt_time_per_squad": self.bankrupt_time_per_squad,
             "bankrupt": self.bankrupt,
             "asset_per_stop": self.asset_per_stop,
-            "toll_per_stop": self.toll_per_stop
+            "toll_per_stop": self.toll_per_stop,
+            "total_value":self.total_value
         })
     
 

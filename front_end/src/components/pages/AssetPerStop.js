@@ -29,6 +29,7 @@ function AssetPerStop() {
 
   return (
     <div>
+      <div>各小現況</div>
       {data && (
         <table>
           <thead>
@@ -43,49 +44,49 @@ function AssetPerStop() {
             <tr>
               <td>1</td>
               <td>{data.cash_per_squad[0]}</td>
-              <td>{data.asset_per_stop[0]}</td>
+              <td>{data.total_value[0]}</td>
               <td>{data.bankrupt_time_per_squad[0]}</td>
             </tr>
             <tr>
               <td>2</td>
               <td>{data.cash_per_squad[1]}</td>
-              <td>{data.asset_per_stop[1]}</td>
+              <td>{data.total_value[1]}</td>
               <td>{data.bankrupt_time_per_squad[1]}</td>
             </tr>
             <tr>
               <td>3</td>
               <td>{data.cash_per_squad[2]}</td>
-              <td>{data.asset_per_stop[2]}</td>
+              <td>{data.total_value[2]}</td>
               <td>{data.bankrupt_time_per_squad[2]}</td>
             </tr>
             <tr>
               <td>4</td>
               <td>{data.cash_per_squad[3]}</td>
-              <td>{data.asset_per_stop[3]}</td>
+              <td>{data.total_value[3]}</td>
               <td>{data.bankrupt_time_per_squad[3]}</td>
             </tr>
             <tr>
               <td>5</td>
               <td>{data.cash_per_squad[4]}</td>
-              <td>{data.asset_per_stop[4]}</td>
+              <td>{data.total_value[4]}</td>
               <td>{data.bankrupt_time_per_squad[4]}</td>
             </tr>
             <tr>
               <td>6</td>
               <td>{data.cash_per_squad[5]}</td>
-              <td>{data.asset_per_stop[5]}</td>
+              <td>{data.total_value[5]}</td>
               <td>{data.bankrupt_time_per_squad[5]}</td>
             </tr>
             <tr>
               <td>7</td>
               <td>{data.cash_per_squad[6]}</td>
-              <td>{data.asset_per_stop[6]}</td>
+              <td>{data.total_value[6]}</td>
               <td>{data.bankrupt_time_per_squad[6]}</td>
             </tr>
             <tr>
               <td>8</td>
               <td>{data.cash_per_squad[7]}</td>
-              <td>{data.asset_per_stop[7]}</td>
+              <td>{data.total_value[7]}</td>
               <td>{data.bankrupt_time_per_squad[7]}</td>
             </tr>
           </tbody>

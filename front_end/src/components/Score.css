@@ -1,0 +1,89 @@
+/* 整體表單容器 */
+form {
+  margin-bottom: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 20px; /* 添加内边距 */
+  box-sizing: border-box; /* 确保内边距不会增加元素的实际宽度 */
+}
+
+/* 標籤的樣式 */
+label {
+  font-weight: bold;
+  margin-right: 10px;
+  color: #333;
+  display: block;
+  font-size: 1.1rem;
+}
+
+/* 輸入框和下拉選項的樣式 */
+input[type='text'],
+select {
+  padding: 12px;
+  margin-bottom: 20px;
+  width: 100%; /* 充满父元素的宽度 */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+/* 按鈕的樣式 */
+button {
+  padding: 12px 24px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  display: block;
+  margin: 0 auto;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* 條件渲染部分的樣式 */
+.result-container {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.result-container > div {
+  margin-bottom: 10px;
+}
+
+.result-container h1 {
+  font-size: 1.2rem;
+  color: #333;
+}
+
+@media screen and (max-width: 600px) {
+  /* 在小屏幕上调整字体大小和内边距等 */
+  label {
+      font-size: 1rem;
+  }
+
+  input[type='text'],
+  select {
+      padding: 10px;
+      font-size: 0.9rem;
+  }
+
+  button {
+      padding: 10px 20px;
+      font-size: 0.9rem;
+  }
+
+  .result-container h1 {
+      font-size: 1rem;
+  }
+}

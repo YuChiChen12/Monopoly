@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {Get, Post} from './Api.js';
+import './Score.css'
 
 function Score() {
   const squad = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -88,7 +89,7 @@ function Score() {
             </option>
           ))}
         </select>
-        <h1>你是{form.squad_num}小</h1>
+        {/* <h1>你是{form.squad_num}小</h1> */}
 
         <label>第幾關：</label>
         <select name="stop_num" value={form.stop_num} onChange={changeValue}>
@@ -98,7 +99,7 @@ function Score() {
             </option>
           ))}
         </select>
-        <h1>這是第{form.stop_num}關</h1>
+        {/* <h1>這是第{form.stop_num}關</h1> */}
 
         <label htmlFor="game_gain">地產擴張獎勵金：</label>
         <input
@@ -108,9 +109,7 @@ function Score() {
           value={form.game_gain}
           onChange={changeValue}
         />
-
         <br/>
-
         <label htmlFor="chance">機會/命運：</label>
         <input
           id="chance"
@@ -122,7 +121,7 @@ function Score() {
 
       </form>
       <button type="button" onClick={moneyButtonClick}>
-        算錢
+        結算手上金額
       </button>
       {/* Display the result if available */}
       {dataJson && dataJson.cash_per_squad && (
@@ -132,6 +131,7 @@ function Score() {
         <div>剩餘金額：{dataJson && JSON.stringify(dataJson.cash_per_squad[dataJson.squad_num-1])}</div>
         <div>破產次數：{dataJson && JSON.stringify(dataJson.bankrupt_time_per_squad[dataJson.squad_num-1])}</div>
         <div>目前在第{dataJson && dataJson.stop_num}關擁有的房地產數：{dataJson && JSON.stringify(dataJson.asset_per_stop[dataJson.stop_num-1][dataJson.squad_num-1])}</div>
+        <div>資產總價值：{dataJson && JSON.stringify(dataJson.total_value)}</div>
         <div>現況：{dataJson && JSON.stringify(dataJson)}</div>
       </>
       )}
@@ -146,7 +146,7 @@ function Score() {
             </option>
           ))}
         </select>
-        <h1>你要買{form.add_asset}棟房子</h1>
+        {/* <h1>你要買{form.add_asset}棟房子</h1> */}
       </form>
       <button type="button" onClick={assetButtonClick}>
         買房
