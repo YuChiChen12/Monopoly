@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {Get, Post} from './Api.js';
-import RealEstate from './RealEstate';
 
 function Score() {
   const squad = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -13,8 +12,7 @@ function Score() {
     stop_num: stop[0],
     game_gain: 0,
     chance: 0,
-    add_asset: add_asset[0],
-    id: 1
+    add_asset: add_asset[0]
   });
 
   const changeValue = (e) => {
@@ -33,8 +31,7 @@ function Score() {
   const moneyButtonClick = () => {
   setForm((prevForm) => ({
     ...prevForm,
-    add_asset: 0,
-    id: 1
+    add_asset: 0
   }))
   const formDataJson = JSON.stringify(form);
   Post(formDataJson)
@@ -55,8 +52,7 @@ function Score() {
   setForm((prevForm) => ({
     ...prevForm,
     game_gain: 0,
-    chance: 0,
-    id: 2
+    chance: 0
   }))
   const formDataJson = JSON.stringify(form);
   Post(formDataJson)
@@ -155,9 +151,6 @@ function Score() {
       <button type="button" onClick={assetButtonClick}>
         買房
       </button>
-
-
-      <RealEstate dataJson={dataJson} />
     </>
   );
 }

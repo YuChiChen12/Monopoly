@@ -6,13 +6,13 @@ import json
     # "game_gain"
     # "chance"
     # "add_asset"
-    # "id"  判斷置產前行動or置產
 
 
 # Output json：
     # "squad_num"
     # "stop_num"
     # "cash_per_squad"
+    # "bankrupt"
     # "bankrupt_time_per_squad"
     # "asset_per_stop"
     # "toll_per_stop"
@@ -27,6 +27,8 @@ class Game():
         self.cash_per_squad = []
         for _ in range(8):
             self.cash_per_squad.append(5000)
+        # bankrupt：小隊這次是否破產
+        self.bankrupt = 0
         # bankrupt_time_per_squad：每隊破產次數 (1D array)
         self.bankrupt_time_per_squad = []
         for _ in range(8):
@@ -38,7 +40,7 @@ class Game():
 
 
     # 遊戲獎金 & 機會/命運 & 過路費
-    def gain_and_toll(self, data):
+    def record(self, data):
         self.squad_num = data['squad_num']
         self.stop_num = data['stop_num']
         self.cash_per_squad[data['squad_num']-1] += data['game_gain'] + data['chance'] - self.toll_per_stop[data['stop_num']-1][data['squad_num']-1]
@@ -46,47 +48,40 @@ class Game():
         if self.cash_per_squad[data['squad_num']-1] < 0:
             self.cash_per_squad[data['squad_num']-1] = 5000
             self.bankrupt_time_per_squad[data['squad_num']-1] += 1
-            return self.get_state(bankrupt=1)
-        # 把過路費分給各小隊
-        for i in range(8):
-            if i != (data['squad_num']-1):
-                self.cash_per_squad[i] += 1000 * self.asset_per_stop[data['stop_num']-1][i]
-        return self.get_state()
-
-    # 置產
-    def real_estate(self, data):
-        self.asset_per_stop[data['stop_num']-1][data['squad_num']-1] += data['add_asset']
-        print('asset_per_stop before：', self.asset_per_stop)
-        print('toll_per_stop before：', self.toll_per_stop)
-        for i in range(8):
-            if i != (data['squad_num']-1):
-                self.toll_per_stop[data['stop_num']-1][i] += 1000 * data['add_asset']
-        print('asset_per_stop after：', self.asset_per_stop)
-        print('toll_per_stop after：', self.toll_per_stop)
-        if data['add_asset'] == 1:
-            self.cash_per_squad[data['squad_num']-1] -= 500
-        elif data['add_asset'] == 2:
-            self.cash_per_squad[data['squad_num']-1] -= 1300
-        elif data['add_asset'] == 3:
-            self.cash_per_squad[data['squad_num']-1] -= 2500
-        return self.get_state()
+            self.bankrupt = 1
+            return self.get_state()
+        else:
+            self.bankrupt = 0
+             # 把過路費分給各小隊
+            for i in range(8):
+                if i != (data['squad_num']-1):
+                    self.cash_per_squad[i] += 1000 * self.asset_per_stop[data['stop_num']-1][i]
+            # 置產
+            if(data['add_asset'] != 0):
+                self.asset_per_stop[data['stop_num']-1][data['squad_num']-1] += data['add_asset']
+                for i in range(8):
+                    if i != (data['squad_num']-1):
+                        self.toll_per_stop[data['stop_num']-1][i] += 1000 * data['add_asset']
+                if data['add_asset'] == 1:
+                    self.cash_per_squad[data['squad_num']-1] -= 500
+                elif data['add_asset'] == 2:
+                    self.cash_per_squad[data['squad_num']-1] -= 1300
+                elif data['add_asset'] == 3:
+                    self.cash_per_squad[data['squad_num']-1] -= 2500
+            return self.get_state()
     
-    # def process(str ...)  // client input
     def data_processing(self, data):
         data = json.loads(data)
         for key, value in data.items():
             data[key] = int(value)
-        if data['id'] == 1:
-            return self.gain_and_toll(data)
-        elif data['id'] == 2:
-            return self.real_estate(data)
+        return self.record(data)
 
 
 
 
 
     # def get_state(self): // client output
-    def get_state(self, bankrupt=0):
+    def get_state(self):
         # Debug：
         # print('after：', json.dumps({
         #     "squad_num": self.squad_num,
@@ -102,7 +97,7 @@ class Game():
             "stop_num": self.stop_num,
             "cash_per_squad": self.cash_per_squad,
             "bankrupt_time_per_squad": self.bankrupt_time_per_squad,
-            "bankrupt": bankrupt,
+            "bankrupt": self.bankrupt,
             "asset_per_stop": self.asset_per_stop,
             "toll_per_stop": self.toll_per_stop
         })
