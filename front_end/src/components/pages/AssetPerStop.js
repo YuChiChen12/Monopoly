@@ -34,9 +34,10 @@ function AssetPerStop() {
       <table>
         <thead>
           <tr>
-            <th>Company</th>
-            <th>Contact</th>
-            <th>Country</th>
+            <th>小隊</th>
+            <th>手中金額</th>
+            <th>資產總價值</th>
+            <th>破產次數</th>
           </tr>
         </thead>
         <tbody>
