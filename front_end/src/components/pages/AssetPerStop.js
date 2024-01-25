@@ -12,10 +12,8 @@ function AssetPerStop() {
         const result = await Get();
         console.log('Data from Get:', result);
         setData(result);
-        // Handle the data as needed
       } catch (error) {
         console.error('Error while fetching data:', error);
-        // Handle the error
       }
     };
 

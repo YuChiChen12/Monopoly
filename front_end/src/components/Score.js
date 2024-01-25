@@ -30,9 +30,9 @@ function Score() {
 
   const moneyButtonClick = () => {
   setForm((prevForm) => ({
-    ...prevForm,
-    add_asset: 0
+    ...prevForm
   }))
+  form.add_asset = 0;
   const formDataJson = JSON.stringify(form);
   Post(formDataJson)
     .then((data) => {
@@ -51,9 +51,9 @@ function Score() {
   const assetButtonClick = () => {
   setForm((prevForm) => ({
     ...prevForm,
-    game_gain: 0,
-    chance: 0
   }))
+  form.game_gain = 0;
+  form.chance = 0;
   const formDataJson = JSON.stringify(form);
   Post(formDataJson)
     .then((data) => {
