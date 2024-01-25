@@ -53,6 +53,7 @@ class Game():
         if self.cash_per_squad[data['squad_num']-1] < 0:
             self.cash_per_squad[data['squad_num']-1] = 5000
             self.bankrupt_time_per_squad[data['squad_num']-1] += 1
+<<<<<<< HEAD
             self.bankrupt = 1
             return self.get_state()
         else:
@@ -99,6 +100,28 @@ class Game():
                             self.total_value[i] += self.asset_per_stop[j][i]*1500
                 self.total_value[i] += self.cash_per_squad[i]
             return self.get_state()
+=======
+            return self.get_state(bankrupt=1)
+        # 把過路費分給各小隊
+        for i in range(8):
+            if i != (data['squad_num']-1):
+                self.cash_per_squad[i] += 1000 * self.asset_per_stop[data['stop_num']-1][i]
+        return self.get_state()
+
+    # 置產
+    def real_estate(self, data):
+        self.asset_per_stop[data['stop_num']-1][data['squad_num']-1] += data['add_asset']
+        for i in range(8):
+            if i != (data['squad_num']-1):
+                self.toll_per_stop[data['stop_num']-1][i] += 1000 * data['add_asset']
+        if data['add_asset'] == 1:
+            self.cash_per_squad[data['squad_num']-1] -= 500
+        elif data['add_asset'] == 2:
+            self.cash_per_squad[data['squad_num']-1] -= 1300
+        elif data['add_asset'] == 3:
+            self.cash_per_squad[data['squad_num']-1] -= 2500
+        return self.get_state()
+>>>>>>> 82e0e253cef5d5f73d5411cd953eb9189f7fe161
     
     def data_processing(self, data):
         data = json.loads(data)
