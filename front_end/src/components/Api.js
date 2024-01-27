@@ -1,6 +1,6 @@
 export default async function Get() {
     try {
-        const response = await fetch("http://172.18.78.71:5000");
+        const response = await fetch("http://localhost:5000");
         const data = await response.json();
         return data;
     } catch (error) {
@@ -12,7 +12,7 @@ export default async function Get() {
 export async function Post(formDataJson) {
     console.log('Post data:', formDataJson);
     try {
-        const response = await fetch('http://172.18.78.71:5000', {
+        const response = await fetch('http://localhost:5000', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

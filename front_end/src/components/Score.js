@@ -105,7 +105,7 @@ function Score() {
         </select>
         {/* <h1>這是第{form.stop_num}關</h1> */}
 
-        <label htmlFor="game_gain">地產擴張獎勵金</label>
+        <label htmlFor="game_gain">地產擴張獎勵金 (e.g., 1000, -2000)</label>
         <input
           id="game_gain"
           type="text"
@@ -114,7 +114,7 @@ function Score() {
           onChange={changeValue}
         />
         <br/>
-        <label htmlFor="chance">機會/命運</label>
+        <label htmlFor="chance">機會/命運 (e.g., 1000, -2000)</label>
         <input
           id="chance"
           type="text"
