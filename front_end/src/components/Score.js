@@ -5,7 +5,7 @@ import './Score.css'
 function Score() {
   const squad = [1, 2, 3, 4, 5, 6, 7, 8];
   const stop = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
-  const add_asset = [1, 2, 3]
+  const add_asset = [0, 1, 2, 3]
   const [dataJson, setDataJson] = useState();
 
   const [form, setForm] = useState({
@@ -60,6 +60,10 @@ function Score() {
     .then((data) => {
       console.log('Get data after Post：', data);
       setDataJson(data);
+      // 破產通知
+      if (data.bankrupt == 1){
+        alert("小隊破產囉！！！")
+      }
     })
     .catch((error) => {
       console.error(`Error in ButtonClick: ${error}`);
@@ -81,7 +85,7 @@ function Score() {
   return (
     <>
       <form>
-        <label>第幾小隊：</label>
+        <label>第幾小隊</label>
         <select name="squad_num" value={form.squad_num} onChange={changeValue}>
           {squad.map((item) => (
             <option key={item} value={item}>
@@ -91,7 +95,7 @@ function Score() {
         </select>
         {/* <h1>你是{form.squad_num}小</h1> */}
 
-        <label>第幾關：</label>
+        <label>第幾關</label>
         <select name="stop_num" value={form.stop_num} onChange={changeValue}>
           {stop.map((item) => (
             <option key={item} value={item}>
@@ -101,7 +105,7 @@ function Score() {
         </select>
         {/* <h1>這是第{form.stop_num}關</h1> */}
 
-        <label htmlFor="game_gain">地產擴張獎勵金：</label>
+        <label htmlFor="game_gain">地產擴張獎勵金</label>
         <input
           id="game_gain"
           type="text"
@@ -110,7 +114,7 @@ function Score() {
           onChange={changeValue}
         />
         <br/>
-        <label htmlFor="chance">機會/命運：</label>
+        <label htmlFor="chance">機會/命運</label>
         <input
           id="chance"
           type="text"
@@ -131,14 +135,12 @@ function Score() {
         <div>剩餘金額：{dataJson && JSON.stringify(dataJson.cash_per_squad[dataJson.squad_num-1])}</div>
         <div>破產次數：{dataJson && JSON.stringify(dataJson.bankrupt_time_per_squad[dataJson.squad_num-1])}</div>
         <div>目前在第{dataJson && dataJson.stop_num}關擁有的房地產數：{dataJson && JSON.stringify(dataJson.asset_per_stop[dataJson.stop_num-1][dataJson.squad_num-1])}</div>
-        <div>資產總價值：{dataJson && JSON.stringify(dataJson.total_value)}</div>
-        <div>現況：{dataJson && JSON.stringify(dataJson)}</div>
       </>
       )}
 
 
       <form>
-        <label>置產數量：</label>
+        <label>置產數量 (成本：500×1 / 1300×2 / 2500×3)</label>
         <select name="add_asset" value={form.add_asset} onChange={changeValue}>
           {add_asset.map((item) => (
             <option key={item} value={item}>
