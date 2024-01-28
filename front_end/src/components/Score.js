@@ -83,7 +83,7 @@ function Score() {
 
 
   return (
-    <>
+    <div className="whole_page">
       <form>
         <label>第幾小隊</label>
         <select name="squad_num" value={form.squad_num} onChange={changeValue}>
@@ -105,7 +105,7 @@ function Score() {
         </select>
         {/* <h1>這是第{form.stop_num}關</h1> */}
 
-        <label htmlFor="game_gain">地產擴張獎勵金 (e.g., 1000, -2000)</label>
+        <label htmlFor="game_gain">地產擴張獎勵金 (e.g., 1000, 2000)</label>
         <input
           id="game_gain"
           type="text"
@@ -114,7 +114,7 @@ function Score() {
           onChange={changeValue}
         />
         <br/>
-        <label htmlFor="chance">機會/命運 (e.g., 1000, -2000)</label>
+        <label htmlFor="chance">機會/命運 & 環遊世界 (e.g., 1000, -2000)</label>
         <input
           id="chance"
           type="text"
@@ -129,16 +129,14 @@ function Score() {
       </button>
       {/* Display the result if available */}
       {dataJson && dataJson.cash_per_squad && (
-        <>
+        <div className="result-area">
         <div>第{dataJson && dataJson.squad_num}小隊：</div>
         <div>經過第{dataJson && dataJson.stop_num}關被收取過路費：{dataJson && dataJson.toll_per_stop[dataJson.stop_num-1][dataJson.squad_num-1]}</div>
         <div>剩餘金額：{dataJson && JSON.stringify(dataJson.cash_per_squad[dataJson.squad_num-1])}</div>
         <div>破產次數：{dataJson && JSON.stringify(dataJson.bankrupt_time_per_squad[dataJson.squad_num-1])}</div>
         <div>目前在第{dataJson && dataJson.stop_num}關擁有的房地產數：{dataJson && JSON.stringify(dataJson.asset_per_stop[dataJson.stop_num-1][dataJson.squad_num-1])}</div>
-      </>
+      </div>
       )}
-
-
       <form>
         <label>置產數量 (成本：500×1 / 1300×2 / 2500×3)</label>
         <select name="add_asset" value={form.add_asset} onChange={changeValue}>
@@ -153,7 +151,7 @@ function Score() {
       <button type="button" onClick={assetButtonClick}>
         買房
       </button>
-    </>
+    </div>
   );
 }
 

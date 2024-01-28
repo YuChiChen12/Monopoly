@@ -1,3 +1,7 @@
+.whole_page {
+  margin:1rem;
+}
+
 /* 整體表單容器 */
 form {
   margin-bottom: 20px;
@@ -55,6 +59,11 @@ button:hover {
   border-radius: 5px;
   max-width: 600px;
   margin: 0 auto;
+}
+
+.result-area{
+  width:70%;
+  margin:1.5rem auto;
 }
 
 .result-container > div {
