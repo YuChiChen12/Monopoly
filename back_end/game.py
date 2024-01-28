@@ -98,7 +98,7 @@ class Game():
                         else:
                             self.total_value[i] += self.asset_per_stop[j][i]*1500
                 self.total_value[i] += self.cash_per_squad[i]
-                self.total_value[i] -= self.bankrupt_time_per_squad[i]
+                self.total_value[i] -= self.bankrupt_time_per_squad[i] * 10000
             return self.get_state()
 
     
