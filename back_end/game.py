@@ -64,6 +64,7 @@ class Game():
         # 破產(收過路費後手上現金沒了)
         if self.cash_per_squad[data['squad_num']-1] < 0:
             self.cash_per_squad[data['squad_num']-1] = 5000
+            self.total_value[data['squad_num']-1] -= 10000
             self.bankrupt_time_per_squad[data['squad_num']-1] += 1
             self.bankrupt = 1
             return self.get_state()
