@@ -6,14 +6,16 @@ function Score() {
   const squad = [1, 2, 3, 4, 5, 6, 7, 8];
   const stop = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
   const add_asset = [0, 1, 2, 3]
-  const [dataJson, setDataJson] = useState();
+  const [dataJson, setDataJson] = useState({});
+  const id = 1;
 
   const [form, setForm] = useState({
     squad_num: squad[0],
     stop_num: stop[0],
     game_gain: 0,
     chance: 0,
-    add_asset: add_asset[0]
+    add_asset: add_asset[0],
+    id: 0
   });
 
   const changeValue = (e) => {
@@ -34,6 +36,7 @@ function Score() {
     ...prevForm
   }))
   form.add_asset = 0;
+  form.id = 1;
   const formDataJson = JSON.stringify(form);
   Post(formDataJson)
     .then((data) => {
@@ -55,6 +58,7 @@ function Score() {
   }))
   form.game_gain = 0;
   form.chance = 0;
+  form.id = 2;
   const formDataJson = JSON.stringify(form);
   Post(formDataJson)
     .then((data) => {
@@ -128,7 +132,7 @@ function Score() {
         結算手上金額
       </button>
       {/* Display the result if available */}
-      {dataJson && dataJson.cash_per_squad && (
+      {dataJson && Object.keys(dataJson).length > 0 && dataJson.cash_per_squad && (
         <div className="result-area">
         <div>第{dataJson && dataJson.squad_num}小隊：</div>
         <div>經過第{dataJson && dataJson.stop_num}關被收取過路費：{dataJson && dataJson.toll_per_stop[dataJson.stop_num-1][dataJson.squad_num-1]}</div>

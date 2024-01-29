@@ -6,6 +6,7 @@ import json
     # "game_gain"
     # "chance"
     # "add_asset"
+    # "id"
 
 
 # Output json：
@@ -42,25 +43,31 @@ class Game():
         self.total_value = []
         for _ in range(8):
             self.total_value.append(0)
+        # id：哪一個button
+        self.id = 1
 
 
-    # 遊戲獎金 & 機會/命運 & 過路費
+   
     def record(self, data):
+        self.id = data['id']
         self.squad_num = data['squad_num']
         self.stop_num = data['stop_num']
-        self.cash_per_squad[data['squad_num']-1] += data['game_gain'] + data['chance'] - self.toll_per_stop[data['stop_num']-1][data['squad_num']-1]
+        # 遊戲獎金 & 機會/命運 & 過路費
+        if (self.id == 1):
+            self.cash_per_squad[data['squad_num']-1] += data['game_gain'] + data['chance'] - self.toll_per_stop[data['stop_num']-1][data['squad_num']-1]
         # 置產
-        if(data['add_asset'] != 0):
-            self.asset_per_stop[data['stop_num']-1][data['squad_num']-1] += data['add_asset']
-            for i in range(8):
-                if i != (data['squad_num']-1):
-                    self.toll_per_stop[data['stop_num']-1][i] += 1000 * data['add_asset']
-            if data['add_asset'] == 1:
-                self.cash_per_squad[data['squad_num']-1] -= 500
-            elif data['add_asset'] == 2:
-                self.cash_per_squad[data['squad_num']-1] -= 1300
-            elif data['add_asset'] == 3:
-                self.cash_per_squad[data['squad_num']-1] -= 2500
+        elif (self.id == 2):
+            if(data['add_asset'] != 0):
+                self.asset_per_stop[data['stop_num']-1][data['squad_num']-1] += data['add_asset']
+                for i in range(8):
+                    if i != (data['squad_num']-1):
+                        self.toll_per_stop[data['stop_num']-1][i] += 1000 * data['add_asset']
+                if data['add_asset'] == 1:
+                    self.cash_per_squad[data['squad_num']-1] -= 500
+                elif data['add_asset'] == 2:
+                    self.cash_per_squad[data['squad_num']-1] -= 1300
+                elif data['add_asset'] == 3:
+                    self.cash_per_squad[data['squad_num']-1] -= 2500
         # 破產(收過路費後手上現金沒了)
         if self.cash_per_squad[data['squad_num']-1] < 0:
             self.cash_per_squad[data['squad_num']-1] = 5000
@@ -69,10 +76,11 @@ class Game():
             return self.get_state()
         else:
             self.bankrupt = 0
-             # 把過路費分給各小隊
-            for i in range(8):
-                if i != (data['squad_num']-1):
-                    self.cash_per_squad[i] += 1000 * self.asset_per_stop[data['stop_num']-1][i]
+            if (self.id == 1):
+                # 把過路費分給各小隊
+                for i in range(8):
+                    if i != (data['squad_num']-1):
+                        self.cash_per_squad[i] += 1000 * self.asset_per_stop[data['stop_num']-1][i]
             # 算每小總資產
             for i in range(8):
                 self.total_value[i] = 0
