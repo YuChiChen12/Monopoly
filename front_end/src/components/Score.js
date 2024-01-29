@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Get, Post} from './Api.js';
+import Post from './Api.js';
 import './Score.css'
 
 function Score() {
@@ -7,7 +7,6 @@ function Score() {
   const stop = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
   const add_asset = [0, 1, 2, 3]
   const [dataJson, setDataJson] = useState({});
-  const id = 1;
 
   const [form, setForm] = useState({
     squad_num: squad[0],
@@ -43,7 +42,7 @@ function Score() {
       console.log('Get data after Post：', data);
       setDataJson(data);
       // 破產通知
-      if (data.bankrupt == 1){
+      if (data.bankrupt === 1){
           alert("小隊破產囉！！！")
       }
     })
@@ -65,7 +64,7 @@ function Score() {
       console.log('Get data after Post：', data);
       setDataJson(data);
       // 破產通知
-      if (data.bankrupt == 1){
+      if (data.bankrupt === 1){
         alert("小隊破產囉！！！")
       }
     })
