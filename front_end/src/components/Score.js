@@ -135,9 +135,9 @@ function Score() {
       {dataJson && Object.keys(dataJson).length > 0 && dataJson.cash_per_squad && (
         <div className="result-area">
         <div>第{dataJson && dataJson.squad_num}小隊：</div>
-        <div>經過第{dataJson && dataJson.stop_num}關被收取過路費：{dataJson && dataJson.toll_per_stop[dataJson.stop_num-1][dataJson.squad_num-1]}</div>
-        <div>剩餘金額：{dataJson && JSON.stringify(dataJson.cash_per_squad[dataJson.squad_num-1])}</div>
-        <div>破產次數：{dataJson && JSON.stringify(dataJson.bankrupt_time_per_squad[dataJson.squad_num-1])}</div>
+        <div>經過第{dataJson && dataJson.stop_num}關會被收取過路費：{dataJson && dataJson.toll_per_stop[dataJson.stop_num-1][dataJson.squad_num-1]}</div>
+        <div>扣過路費後的剩餘金額(可用來置產)：{dataJson && JSON.stringify(dataJson.cash_per_squad[dataJson.squad_num-1])}</div>
+        <div>破產次數(累計)：{dataJson && JSON.stringify(dataJson.bankrupt_time_per_squad[dataJson.squad_num-1])}</div>
         <div>目前在第{dataJson && dataJson.stop_num}關擁有的房地產數：{dataJson && JSON.stringify(dataJson.asset_per_stop[dataJson.stop_num-1][dataJson.squad_num-1])}</div>
       </div>
       )}
