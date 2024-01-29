@@ -66,7 +66,7 @@ function Score() {
       setDataJson(data);
       // 破產通知
       if (data.bankrupt == 1){
-        alert("小隊破產囉！！！")
+        alert("小隊破產囉！！！已補發重振資金5000萬元")
       }
     })
     .catch((error) => {
